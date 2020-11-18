@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../partials/head') %>
+  <style>
+    .ck-editor__editable:not(.ck-editor__nested-editable) {
+      min-height: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <main id="main">
+    <section>
+      <div class="container">
+
+        <div class="section-title">
+          <h2><%= temple.title %></h2>
+        </div>
+
+        <div class="row">
+          <div class="col-12 contact">
+
+            <div id="alert">
+              <% if (alert){ %>
+              <% alert.forEach((value, index) => { %>
+              <div class="alert alert-<%= value.status %> alert-dismissible fade show" role="alert">
+                <strong><%= value.title %></strong> <%= value.message %>
+                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+              </div>
+              <% }) %>
+              <% } %>
+            </div>
+
+            <form action="/temple/<%= temple._id %>?_method=PATCH" method="post" role="form" class="php-email-form"
+              enctype="multipart/form-data">
+              <div class="form-group row" id="thumbnailContainer">
+                <% temple.pictures.forEach((value, index) => { %>
+                <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4" id="thumb-<%= value %>">
+                  <figure class="figure">
+                    <button type="button" class="btn btn-danger btn-sm removeExisting" data-file="<%= value %>"
+                      style="position: absolute; z-index: 999;">
+                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x fw-bolder" fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                          d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                      </svg>
+                    </button>
+                    <img src="/uploads/<%= value %>" class="figure-img img-fluid rounded" alt="">
+                    <figcaption class="figure-caption text-break"></figcaption>
+                  </figure>
+                </div>
+                <% }) %>
+              </div>
+              <div class="form-group">
+                <input type="file" name="pictures" class="form-control pictures" />
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="title" placeholder="Title of your temple"
+                  value="<%= temple.title %>" />
+              </div>
+              <div class="form-group">
+                <textarea class="form-control" name="description" rows="5" id="description"
+                  placeholder="Write temple description here"><%= temple.description %></textarea>
+              </div>
+              <div class="text-center"><button type="submit">Save Temple</button></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <template>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
+      <figure class="figure">
+        <button type="button" class="btn btn-danger btn-sm" style="position: absolute; z-index: 999;">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x fw-bolder" fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+          </svg>
+        </button>
+        <img src="/assets/img/more-services-1.jpg" class="figure-img img-fluid rounded" alt="">
+        <figcaption class="figure-caption text-break"></figcaption>
+      </figure>
+    </div>
+  </template>
+
+ 
+
+  <button type="button" data-toggle="modal" data-target="#confirmDelete" class="floating-btn btn btn-danger">
+    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd"
+        d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z" />
+    </svg>
+  </button>
+
+   <div class="modal" id="confirmDelete" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" method="POST" action="/temple/<%= temple._id %>?_method=DELETE">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmDeleteLabel">Are you sure?</h5>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure to delete <strong><%= temple.title %></strong> temple?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger">Yes I am</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <%- include('../partials/footer'); %>
+  <script src="/assets/vendor/ckeditor/ckeditor.js"></script>
+  <script src="/assets/js/temple.update.js"></script>
+
+</body>
+
+</html>

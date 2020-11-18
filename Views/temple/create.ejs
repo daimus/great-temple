@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../partials/head') %>
+  <style>
+    .ck-editor__editable:not(.ck-editor__nested-editable) { 
+    min-height: 200px;
+}
+  </style>
+</head>
+
+<body>
+  <main id="main">
+    <section>
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Add New Temple</h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis quisquam inventore molestiae repellendus. Recusandae doloremque eveniet, expedita impedit explicabo officia quam in earum magnam maxime dolorum, libero, adipisci neque nam.!</p>
+        </div>
+
+        <div class="row">
+          <div class="col-12 contact">
+
+            <div id="alert">
+              <% if (alert){ %>
+                <% alert.forEach((value, index) => { %>
+                  <div class="alert alert-<%= value.status %> alert-dismissible fade show" role="alert">
+                    <strong><%= value.title %></strong> <%= value.message %>
+                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                <% }) %>
+              <% } %>
+            </div>
+
+            <form action="/temple" method="post" role="form" class="php-email-form" enctype="multipart/form-data">
+              <div class="form-group row" id="thumbnailContainer">
+
+              </div>
+              <div class="form-group">
+                <input type="file" name="pictures" class="form-control pictures" />
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="title" placeholder="Title of your temple" value="Tragedi Halaman Belakang" />
+              </div>
+              <div class="form-group">
+                <textarea class="form-control" name="description" rows="5" id="description" placeholder="Write temple description here">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo cum maiores expedita, cumque tempore vero odit repellendus nobis! Quaerat officiis adipisci sequi? Laboriosam, culpa! Molestiae provident soluta voluptatibus adipisci. Voluptates!</textarea>
+              </div>
+              <div class="text-center"><button type="submit">Save Temple</button></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <template>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
+      <figure class="figure">
+        <button type="button" class="btn btn-danger btn-sm" style="position: absolute; z-index: 999;">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x fw-bolder" fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+          </svg>
+        </button>
+        <img src="/assets/img/more-services-1.jpg" class="figure-img img-fluid rounded" alt="">
+        <figcaption class="figure-caption text-break"></figcaption>
+      </figure>
+    </div>
+  </template>
+
+  <%- include('../partials/footer'); %>
+  <script src="/assets/vendor/ckeditor/ckeditor.js"></script>
+  <script src="/assets/js/temple.create.js"></script>
+
+</body>
+
+</html>
